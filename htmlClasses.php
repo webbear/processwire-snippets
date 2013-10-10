@@ -22,7 +22,7 @@ function htmlClasses() {
 			$classes[] = (is_numeric(substr($segment,0,1))) ? 'n'.$segment : $segment;
 		}
 	}
-	$classes[] = "page$p->id";
+	$classes[] = "page-$p->id";
 	$classes[]= "t-" . $p->template->name;
 	// now fetch the browser 
 	$browser = (isset($_SERVER['HTTP_USER_AGENT'])) ? strtolower($_SERVER['HTTP_USER_AGENT']) : 'unknown';
@@ -63,8 +63,15 @@ function htmlClasses() {
 			$classes[] = 'gecko';
 		}
 		elseif(strpos($browser, 'msie') !== false)
-		{
-			if(strpos($browser, 'msie 10') !== false)
+		{	if(strpos($browser, 'msie 11') !== false)
+			{
+				$classes[] = 'ie11';
+			}
+			elseif(strpos($browser, 'msie 10') !== false)
+			{
+				$classes[] = 'ie10';
+			}
+			elseif(strpos($browser, 'msie 10') !== false)
 			{
 				$classes[] = 'ie10';
 			}
@@ -104,7 +111,7 @@ function htmlClasses() {
 		}
 	}
 	$out = implode(' ', $classes);
-	echo $out;
+	return $out;
 }
 // end of htmlClasses
 ?>
