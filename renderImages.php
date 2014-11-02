@@ -12,6 +12,7 @@ function renderImages($images, $options= array()) {
 
 	$out='';
 	if (count($images)) {
+		$c = 0;
 		foreach($images as $image) {
 			$c++;
 			$thumb = ($options['image_resize']) ? $image->size($options['image_width'],$options['image_height']) : $image;

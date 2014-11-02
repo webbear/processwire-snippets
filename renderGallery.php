@@ -11,6 +11,7 @@ function renderGallery( $images, $options = array() ) {
 	$out = '';
 	if (count($images)) {
 		$out .= "<ul class='{$options['container_class']}'>";
+		$c = 0;
 		foreach($images as $image) {
 			$c++;
 			$thumb = $image->size($options['thumb_width'], $options['thumb_height']);

@@ -4,7 +4,7 @@
 // checks whether the page name exists in PageArray
 function renderUtilityNav(array $options = array()) {
 	$defaults = array(
-		'print' => true, 
+		'print' => true,
 		'pages', 'site-map',
 		'top_id' => '#top'
 	);
@@ -12,11 +12,12 @@ function renderUtilityNav(array $options = array()) {
 	$list = array();
 	$list = explode("|",$options['pages']);
 	$out ='';
+	$c = 0;
 	foreach($list as $l) {
 		$c++;
 		$el = wire('pages')->get('/'.$l.'/');
-		if ($c == 1) $first = ' first-child';	
-		if ($options['print'] == false && $c == count($list) ) $last = ' last-child';
+		$first = ($c == 1) ' first-child' : '';
+		$last = ($options['print'] == false && $c == count($list) ) ' last-child' : '';
 		if ($l=='top') {
 			$url = $options['top_id'];
 			$title = __('Top');
@@ -32,5 +33,5 @@ function renderUtilityNav(array $options = array()) {
 		$out .= "<li class='item-print'><a href='#' onclick='window.print()'>".__('Print')."</a></li>";
 	}
 	return $out;
-	
+
 }

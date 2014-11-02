@@ -5,10 +5,10 @@ if(isset($parent)) {
   $parent = $pages->get($parent);
 } else {
   // otherwise lets assume the current page is the parent
-  $parent = $page; 
+  $parent = $page;
 }
 echo "<ul class='sub-nav'>";
-
+$c = 0;
 foreach($parent->children as $child) {
 	$description = ($child->summary) ? "<div class='summary'>{$child->summary}</div>" : "";
     $c++;

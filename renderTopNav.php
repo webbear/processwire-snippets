@@ -1,4 +1,4 @@
-<?php	
+<?php
 /**
  * Render items for placement in Foundation 'top-bar' recursive drop-down navigation
  *
@@ -17,11 +17,11 @@ function renderTopNav(PageArray $items, array $options = array(), $level = 0) {
 		'excluded_pages' => 'site-map'
 		);
 
-	$options = array_merge($defaults, $options); 
+	$options = array_merge($defaults, $options);
 	$divider = $options['dividers'] ? "<li class='divider'></li>" : "";
 	$page = wire('page');
 	$out = '';
-
+	$c = 0;
 	foreach($items as $item) {
 		$c++;
 		$numChildren = $item->numChildren(true);
@@ -43,12 +43,12 @@ function renderTopNav(PageArray $items, array $options = array(), $level = 0) {
 		if($numChildren) {
 			$out .= "<ul class='{$options['dropdown_class']}'>";
 			if($options['repeat']) $out .= "$divider<li><a href='$item->url'>$item->title</a></li>";
-			$out .= renderTopNav($item->children, $options, $level+1); 
+			$out .= renderTopNav($item->children, $options, $level+1);
 			$out .= "</ul>";
 		}
- 
+
 		$out .= "</li>";
 	}
 
-	return $out; 
+	return $out;
 }

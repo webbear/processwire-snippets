@@ -8,7 +8,7 @@
 	-thumb_width
 	-thumb_height
 	-gallery_page
-	
+
 	#Further instructions
 	-set in init.php
 	$headScript ='';
@@ -41,10 +41,11 @@ $end = (isset($last)) ? $last : count($images);
 
 
 echo "<ul class='gallery'>";
+$c = 0;
 foreach($images as $image) {
 		$c++;
 		if ($c < $start ) continue;
-		
+
 		$thumb = $image->size($thumbWidth,$thumbHeight);
 		$description = ($image->description) ? " data-title='". $image->description."'" : "'";
 		$alt = ($image->description) ? ($image->description) : '';

@@ -7,7 +7,8 @@ function treeMenu(Page $page = null, Page $rootPage = null, $id = null) {
 	$out = "\n<ul$id>";
 	$parents = $page->parents;
 
-	// This is where we get pages we want. You could just say template!=news-item 
+	// This is where we get pages we want. You could just say template!=news-item
+	$c = 0;
 	foreach($rootPage->children('template!=post, template!=faq-item, template!=gallery') as $child) {
 		$c++;
 		$class = "level-" . count($child->parents);
@@ -16,11 +17,11 @@ function treeMenu(Page $page = null, Page $rootPage = null, $id = null) {
 		$class .= $c==count($child)+1 ? " last-child": "";
 		$class .= $c==1 ? " first-child" : "";
 		$s = '';
-		
+
 		if($child->numChildren  && $parents->has($child)) {
 		        $class .= " current has_current";
 		        $s = str_replace("\n", "\n\t\t", treeMenu($page, $child));
-		
+
 		} else if($child === $page) {
 		        $class .= " current current_page";
 		        if($page->numChildren) $s = str_replace("\n", "\n\t\t", treeMenu($page, $page));

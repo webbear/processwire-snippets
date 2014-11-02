@@ -5,6 +5,7 @@ function boxListing($boxes) {
 	 if($boxes) {
 		$out.= "<section class='boxes'>";
 		$out .= "<ul>";
+		$c = 0;
 		foreach ($boxes as $box) {
 			$c ++;
 			$last = ($c == count($boxes)? ' last-child' : '');
@@ -15,7 +16,7 @@ function boxListing($boxes) {
 			$out .= "{$box->box_content}";
 			$out .= "</a>";
 			$out .= "</li>";
-			
+
 		}
 		$out .= "</ul>";
 		$out .= "</section>";

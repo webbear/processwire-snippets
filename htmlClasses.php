@@ -24,11 +24,11 @@ function htmlClasses() {
 	}
 	$classes[] = "page-$p->id";
 	$classes[]= "t-" . $p->template->name;
-	// now fetch the browser 
+	// now fetch the browser
 	$browser = (isset($_SERVER['HTTP_USER_AGENT'])) ? strtolower($_SERVER['HTTP_USER_AGENT']) : 'unknown';
-	
-	if(!in_array('browser', $disable) && $browser != 'unknown')
-	{			
+
+	if($browser != 'unknown')
+	{
 		if(strpos($browser, 'lynx') !== false)
 		{
 			$classes[] = 'lynx';
@@ -40,7 +40,7 @@ function htmlClasses() {
 		elseif(strpos($browser, 'safari') !== false)
 		{
 			$classes[] = 'safari';
-			
+
 			if(strpos($browser, 'ipod') !== false)
 			{
 				$classes[] = 'ipod';
@@ -52,7 +52,7 @@ function htmlClasses() {
 			elseif(strpos($browser, 'ipad') !== false)
 			{
 				$classes[] = 'ipad';
-			}				
+			}
 		}
 		elseif(strpos($browser, 'firefox') !== false)
 		{
@@ -86,11 +86,11 @@ function htmlClasses() {
 			elseif(strpos($browser, 'msie 7') !== false)
 			{
 				$classes[] = 'ie7';
-			}	
+			}
 			elseif(strpos($browser, 'msie 6') !== false)
 			{
 				$classes[] = 'ie6';
-			}	
+			}
 			elseif(strpos($browser, 'msie 5') !== false)
 			{
 				$classes[] = 'ie5';
