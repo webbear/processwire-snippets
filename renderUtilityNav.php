@@ -16,7 +16,7 @@ function renderUtilityNav(array $options = array()) {
 	foreach($list as $l) {
 		$c++;
 		$el = wire('pages')->get('/'.$l.'/');
-		$first = ($c == 1) ' first-child' : '';
+		$first = ($c == 1) ? ' first-child' : '';
 		$last = ($options['print'] == false && $c == count($list) ) ? ' last-child' : '';
 		if ($l=='top') {
 			$url = $options['top_id'];

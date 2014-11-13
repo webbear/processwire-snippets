@@ -35,7 +35,7 @@ function renderTopNav(PageArray $items, array $options = array(), $level = 0) {
 		$class .= " nav-item-".$c;
 		if($c == 1) $class .= " ".$options['first_child_class'];
 		if($level == 0 && $c ==  $total) $class .= " ".$options['last_child_class'];
-		if($level > 0 && $c ==  count($items)) $class .= " "..$options['last_child_class'];
+		if($level > 0 && $c ==  count($items)) $class .= " ".$options['last_child_class'];
 		if($class) $class = " class='" . trim($class) . "'";
 
 		$out .= "$divider<li$class><a href='$item->url'>$item->title</a>";
