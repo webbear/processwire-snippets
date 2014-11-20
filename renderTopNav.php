@@ -3,7 +3,7 @@
  * Render items for placement in Foundation 'top-bar' recursive drop-down navigation
  *
  */
-function renderTopNav(PageArray $items, array $options = array(), $level = 0) {
+function renderTopNav(PageArray $items, $options = array(), $level = 0) {
 
 	$defaults = array(
 		'tree' => 2, // number of levels it should recurse into the tree
@@ -14,7 +14,8 @@ function renderTopNav(PageArray $items, array $options = array(), $level = 0) {
 		'last_child_class' => 'last-child',
 		'dropdown_class' => 'dropdown',
 		'repeat' => false, // whether to repeat items with children as first item in their children nav
-		'excluded_pages' => 'site-map'
+		'excluded_pages' => 'site-map',
+		'excluded_templates' => 'news|events'
 		);
 
 	$options = array_merge($defaults, $options);
@@ -23,11 +24,13 @@ function renderTopNav(PageArray $items, array $options = array(), $level = 0) {
 	$out = '';
 	$c = 0;
 	foreach($items as $item) {
-		$c++;
+		++$c;
 		$numChildren = $item->numChildren(true);
-		if($level+1 > $options['tree'] || $item->id == 1) $numChildren = 0;
+		if($level+1 > $options['tree'] || $item->id == 1 ) $numChildren = 0;
+
 		if(in_array($item->name, explode("|",$options['excluded_pages']))) continue;
-		$total = count($items) - count(explode("|",$options['excluded_pages']));
+		if(in_array($item->template, explode("|", $options['excluded_templates']))) continue;
+		$total = count($items) - count(explode("|",$options['excluded_pages'])) - count(explode('|',$options['excluded_templates']));
 		$class = '';
 		if($numChildren) $class .= $options['has_dropdown_class']." ";
 		if($page->id == $item->id) $class .= $options['current_class']." ";
@@ -49,6 +52,6 @@ function renderTopNav(PageArray $items, array $options = array(), $level = 0) {
 
 		$out .= "</li>";
 	}
-
-	return $out;
+	return str_replace("<ul class='{$options['dropdown_class']}'></ul>", "", $out);
+	//return $out;
 }
