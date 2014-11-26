@@ -1,15 +1,25 @@
 <?php
-
+/*
+ render images
+options:
+		'resize' => true, //resize image
+		'width' =>257, // image width
+		'height' =>165, // image height -> 0 == no resizing/cropping
+		'wrap' => true, // wrap the image
+		'wrap_tag' => 'div', // wrap the image with
+		'wrap_tag_class' => 'image', // wrap css class
+		'limit' => 0 // 0 == all images, any integer
+*/
 
 function renderImages($images, $options= array()) {
 	$defaults = array(
-		'image_resize' => true,
-		'image_width' =>257,
-		'image_height' =>165,
+		'resize' => true,
+		'width' =>257,
+		'height' =>165,
 		'wrap' => true,
-		'image_wrap' => 'div',
-		'image_wrap_class' => 'img',
-		'limit' => 3
+		'wrap_tag' => 'div',
+		'wrap_tag_class' => 'image',
+		'limit' => 0
 	);
 	$options = array_merge($defaults, $options);
 
@@ -18,10 +28,10 @@ function renderImages($images, $options= array()) {
 		$c = 0;
 		foreach($images as $image) {
 			$c++;
-			$thumb = ($options['image_resize']) ? $image->size($options['image_width'],$options['image_height']) : $image;
+			$thumb = ($options['resize']) ? $image->size($options['width'],$options['height']) : $image;
 			$img = "<img src='{$thumb->url}' alt='{$image->description}' width='{$thumb->width}' height='{$thumb->height}' />";
 			if ($options['wrap']) {
-				$out .= "<".$options['image_wrap']." class='".$options['image_wrap_class']." ".$options['image_wrap_class']."{$c}'>{$img}</".$options['image_wrap'].">";
+				$out .= "<".$options['wrap_tag']." class='".$options['wrap_tag_class']." ".$options['wrap_tag_class']."{$c}'>{$img}</".$options['wrap_tag'].">";
 			} else {
 				$out .= $img;
 			}
