@@ -21,7 +21,7 @@ function cssClasses() {
 	}
 	$classes[] = "page-$page->id";
 	$classes[] = ($page->id != 1) ? "page-$page->name" : "page-home";
-	$classes[] = ($page->rootParent->id != 1) ? "section-$page->rootParent->name" : "";
+	$classes[] = ($page->rootParent->id != 1) ? "section-{$page->rootParent->name}" : "";
 	$classes[]= "template-" . $page->template->name;
 
 	$out = implode(' ', $classes);
