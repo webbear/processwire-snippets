@@ -22,6 +22,11 @@ function renderUtilityNav(array $options = array()) {
 			$url = $options['top_id'];
 			$title = __('Top');
 			$name = "top";
+		} elseif ($l == 1) {
+			$home = wire('pages')->get(1);
+			$url = $home->url;
+			$title = $home->title;
+			$name = 'home';
 		} else {
 			$url =$el->url;
 			$title = $el->title;
