@@ -2,7 +2,9 @@
 function cssClasses() {
 	$out='';
 	$page = wire('page');
+	$language = wire('user')->language->name;
 	$classes = array();
+	
 	//get the segments
 	if ($page->id == 1) {
 		if ($page->path != "/") {
@@ -22,10 +24,9 @@ function cssClasses() {
 	$classes[] = "page-$page->id";
 	$classes[] = ($page->id != 1) ? "page-$page->name" : "page-home";
 	$classes[] = ($page->rootParent->id != 1) ? "section-{$page->rootParent->name}" : "";
-	$classes[]= "template-" . $page->template->name;
+	$classes[] = "template-" . $page->template->name;
+	$classes[] = "language-" . $language;
 
 	$out = implode(' ', $classes);
 	return $out;
 }
-
-?>
