@@ -47,11 +47,12 @@ foreach($images as $image) {
 		if ($c < $start ) continue;
 
 		$thumb = $image->size($thumbWidth,$thumbHeight);
-		$description = ($image->description) ? " data-title='". $image->description."'" : "'";
+		$description = ($image->description) ? " data-title='". $image->description."'" : "";
+		$title = ($image->description) ? " title='".$image->description."'" : '';
 		$alt = ($image->description) ? ($image->description) : '';
-		$lightbox = " data-lightbox='test'";
+		$lightbox = " data-lightbox='gallery'";
 		echo "<li class='gallery-item gallery-item-{$c}'>";
-		echo "<a href='{$image->url}'{$lightbox}{$description}>";
+		echo "<a href='{$image->url}'{$lightbox}{$description}{$title}>";
 		echo "<img src='{$thumb->url}' alt='{$alt}' width='{$thumb->width}' height='{$thumb->height}' />";
 		echo "</a>";
 		echo "</li>";
