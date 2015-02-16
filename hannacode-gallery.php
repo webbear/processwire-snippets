@@ -33,14 +33,15 @@ if ($galleryPage == false) {
 } else {
     $images = wire('pages')->get($galleryPage)->$fileField;
 }
-$thumbWidth = (isset($thumb_width)) ? $thumb_width : 200;
-$thumbHeight = (isset($thumb_height)) ? $thumb_height : 200;
+$thumbWidth = (isset($thumb_width)) ? $thumb_width : 240;
+$thumbHeight = (isset($thumb_height)) ? $thumb_height : 240;
 if(count($images)) {
 $start = (isset($first)) ? $first : 1;
 $end = (isset($last)) ? $last : count($images);
+$galleryclass = (isset($gallery_class)) ? $gallery_class : "gallery";
 
 
-echo "<ul class='gallery'>";
+echo "<ul class='{$galleryclass}'>";
 $c = 0;
 foreach($images as $image) {
 		$c++;
@@ -50,7 +51,7 @@ foreach($images as $image) {
 		$description = ($image->description) ? " data-title='". $image->description."'" : "";
 		$title = ($image->description) ? " title='".$image->description."'" : '';
 		$alt = ($image->description) ? ($image->description) : '';
-		$lightbox = " data-lightbox='gallery'";
+		$lightbox = " data-lightbox='{$galleryclass}'";
 		echo "<li class='gallery-item gallery-item-{$c}'>";
 		echo "<a href='{$image->url}'{$lightbox}{$description}{$title}>";
 		echo "<img src='{$thumb->url}' alt='{$alt}' width='{$thumb->width}' height='{$thumb->height}' />";
