@@ -9,17 +9,12 @@
 	-thumb_height
 	-gallery_page
 	-gallery_name
-	-swipebox
 	
 	#Further instructions
 	-set in init.php
 	$headScript ='';
 	$footScript='';
 
-if (strpos($content, "data-lightbox")) {
-		$headScript .= "<link rel='stylesheet' href='{$config->urls->templates}bower_components/lightbox2/dist/css/lightbox.css' media='screen' />";
-		$footScript .= "<script src='{$config->urls->templates}bower_components/lightbox2/dist/js/lightbox.min.js'></script>";
-	}
 	
 	if (strpos($content, "class='swipebox'")) {
 		$headScript .= "<link rel='stylesheet' href='{$config->urls->templates}bower_components/swipebox/src/css/swipebox.min.css' media='screen' />";
@@ -33,7 +28,7 @@ $footScript .= "<script src='{$config->urls->templates}bower_components/swipebox
   ****************************
 */
 $fileField = (isset($gallery_images)) ? $gallery_images : 'gallery_images';
-$swipeBox = (isset($swipebox)) ? true : false;
+$swipeBox = false;
 $galleryPage = (isset($gallery_page)) ? $gallery_page : false;
 
 
