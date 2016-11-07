@@ -5,9 +5,20 @@
 
 */
 function renderGallery( $images, $options = array() ) {
-	$defaults = array('lightbox'=>true, 'start' => 1, 'end' => false,'thumb_width' => 200, 'thumb_height' => 200, 'image_max_width' => 0, 'gallery_name' => 'name','container_class' =>'gallery', 'item_class' => 'gallery-item');
+	$defaults = array(
+		'lightbox'=>true,
+		'start' => 1, 
+		'end' => false,
+		'thumb_width' => 200, 
+		'thumb_height' => 200, 
+		'image_max_width' => 0, 
+		'gallery_name' => 'gallery',
+		'container_class' =>'gallery', 
+		'item_class' => 'gallery-item');
 	$options = array_merge($defaults, $options);
 	$page = wire('page');
+	$galleryName = $options['gallery_name'];
+	
 	$out = '';
 	if (count($images)) {
 		$out .= "<ul class='{$options['container_class']}'>";
@@ -17,10 +28,18 @@ function renderGallery( $images, $options = array() ) {
 			$thumb = $image->size($options['thumb_width'], $options['thumb_height']);
 			$description = ($image->description) ? " data-title='". $image->description."'" : "'";
 			$largeImage = ($options['image_max_width'] > 0) ? $image->size($options['image_max_width']) : $image;
-			$alt = ($image->description) ? ($image->description) : '';
-			$lightbox = ($options['lightbox']) ? " data-lightbox='{$page->$options['gallery_name']}'" : "";
+			$alt = ($image->description) ? "data-title='".($image->description)."'" : "";
+			$lightbox = "";
+			$title = '';
+			if ($options['lightbox']) {
+				$lightbox = " data-lightbox='". $options['gallery_name']."'";
+			} else {
+				$lightbox = " class='swipebox' rel='{$galleryName}' ";
+				$title = ($image->description) ? " title='".($image->description)."'" : "";
+			}
+
 			$out .= "<li class='{$options['item_class']} {$options['item_class']}-{$c}'>";
-			$out .= "<a href='{$largeImage->url}'{$lightbox}{$description}>";
+			$out .= "<a href='{$largeImage->url}'{$lightbox}{$title}>";
 			$out .= "<img src='{$thumb->url}' alt='{$alt}' width='{$thumb->width}' height='{$thumb->height}' />";
 			$out .= "</a>";
 			$out .= "</li>";
