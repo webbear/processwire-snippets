@@ -17,7 +17,7 @@ class Utilities {
 		$out = '';
 
 		foreach($items as $item) {
-			if ( in_array($item->template, $excludeTemplates)) continue;
+			if (in_array($item->template, $excludeTemplates)) continue;
 
 			$out .= $item->id == wire('page')->id ? "<li class='current'>" : "<li>";
 
@@ -30,7 +30,7 @@ class Utilities {
 
 			if($item->hasChildren() && $maxDepth) {
 				if($class == 'nav') $class = 'nav nav-tree';
-				$out .= $this->renderNav($item->children, $maxDepth-1, $fieldNames, $class);
+				$out .= $this->renderNav($item->children, $maxDepth-1, $fieldNames, $class, $excludeTemplates);
 			}
 
 			$out .= "</li>";
@@ -68,8 +68,8 @@ class Utilities {
 		$numChildren = $item->numChildren(true);
 		if($level+1 > $options['tree'] || $item->id == 1 ) $numChildren = 0;
 
-		if(in_array($item->name, explode("|",$options['excluded_pages']))) continue;
-		if(in_array($item->template, explode("|", $options['excluded_templates']))) continue;
+		if(in_array($item->name, array_map('trim', explode("|",$options['excluded_pages'])))) continue;
+		if(in_array($item->template, array_map('trim', explode("|", $options['excluded_templates'])))) continue;
 		$total = count($items) - count(explode("|",$options['excluded_pages'])) - count(explode('|',$options['excluded_templates']));
 		$class = '';
 		if($numChildren) $class .= $options['has_sublevel_class']." ";
@@ -161,9 +161,17 @@ class Utilities {
 	public function cssClasses() {
 		$out='';
 		$page = wire('page');
-		$language = wire('user')->language->name;
+		$user = wire('user');
+		$language = $user->language->name;
+		$roles = '';
+		foreach ($user->roles as $role) {
+			$roles .= ' role-'.$role->name;
+		}
+		
+		
 		$classes = array();
-
+		
+		
 		//get the segments
 		if ($page->id == 1) {
 			if ($page->path != "/") {
@@ -183,8 +191,10 @@ class Utilities {
 		$classes[] = "page-$page->id";
 		$classes[] = ($page->id != 1) ? "page-$page->name" : "page-home";
 		$classes[] = ($page->rootParent->id != 1) ? "section-{$page->rootParent->name}" : "";
+		$classes[] = ($page->id == $page->rootParent->id) ? "section-startpage root-level-page" : '';
 		$classes[] = "template-" . $page->template->name;
 		$classes[] = "language-" . $language;
+		$classes[] =  $roles;
 
 		$out = implode(' ', $classes);
 		return $out;
@@ -215,7 +225,7 @@ class Utilities {
     	$config = wire('config');
 
     	if ($user->isLoggedin()) {
-    		$out .= "<div class='logout-link'><a href='/logout/?redirect=".wire('page')->id."'>({$user->name}) - Abmelden</a></div>";
+    		$out .= "<div class='logout-link'><a href='{$config->urls->admin}login/logout/'>({$user->name}) - Abmelden</a></div>";
     	}
     	return $out;
     }
@@ -240,8 +250,9 @@ class Utilities {
 		return $first . $second;
 	}
 
-	public function image($img) {
-	return "<img src='{$img->url}' alt='{$img->description}' width='{$img->width}' height='{$img->height}' />";
+	public function image($img,$description = null) {
+		$descr = $description ? $description : $img->description;
+	return "<img src='{$img->url}' alt='{$descr}' width='{$img->width}' height='{$img->height}' />";
 	}
 
 	public function randomImage($images, $options = array()) {
@@ -337,5 +348,22 @@ class Utilities {
 		}
 		$out .= $endstr;
 		return $out;
+	}
+	// language specific date rendering
+	public function dateFormatter($timestamp, $formats = array()) {
+		$defaults = array(
+			 "de" => '%e. %B %G', 
+			 "fr" => '%e %B %G'
+		);	
+		$formats = array_merge($defaults, $formats);
+		if (user()->language == languages("fr")) {
+			setlocale(LC_TIME, 'fr_FR.utf-8');
+			$format = $formats['fr'];		
+		} else {
+			setlocale(LC_TIME, 'de_DE.utf-8');
+			$format = $formats["de"];	
+		}
+		return strftime($format ,$timestamp);;
+		
 	}
 }
